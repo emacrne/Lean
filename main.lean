@@ -28,6 +28,9 @@ def NBinaryTree (n : ℕ) : Type :=
   { T : BinaryTree // T.numNodes = n}
 
 
+-- 5.
+
+
 ------------------------------------------------
 
 /- BIG TASKS -/
@@ -53,7 +56,7 @@ theorem fromChildren_to_children :
   l = (fromChildren l).children:= by
   intro childrenList
   cases childrenList
-  . case nil => rfl
+  . case _ => rfl
   . case cons head tail => rfl
 
 theorem children_fromChildren :
