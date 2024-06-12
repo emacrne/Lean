@@ -42,5 +42,25 @@ def listPlaneTreeEquivPlaneTree: List PlaneTree ≃ PlaneTree :=
                         | PlaneTree.nodes _ => rfl
 }
 
+def PlaneTree.children : PlaneTree -> List PlaneTree
+| nodes l => l
+
+def fromChildren : List PlaneTree -> PlaneTree
+| l => PlaneTree.nodes l
+
+theorem fromChildren_to_children :
+  ∀ (l : List PlaneTree),
+  l = (fromChildren l).children:= by
+  intro childrenList
+  cases childrenList
+  . case nil => rfl
+  . case cons head tail => rfl
+
+theorem children_fromChildren :
+  ∀ (tree : PlaneTree),
+  tree = fromChildren (tree.children) := by
+  intro tree
+  cases tree
+  . case nodes children => rfl
 
 ------------------------
