@@ -83,7 +83,7 @@ def PlaneTree.children2 : PlaneTree → BinaryTree
   | nodes List.nil => BinaryTree.leaf
   | nodes (head :: tail) => BinaryTree.node (PlaneTree.children2 head) (PlaneTree.children2 (PlaneTree.nodes tail))
 
-theorem BinaryTree2PlaneTree_inverse :
+theorem BinaryTree2PlaneTree :
   ∀ (T : BinaryTree),
   T = PlaneTree.children2 (BinaryTree.children T) := by
 intro T
@@ -98,7 +98,7 @@ induction T with
   case node type T =>
     rw[← T, ← H₂]
 
-theorem PlaneTree2BinaryTree_inverse :
+theorem PlaneTree2BinaryTree :
   ∀ (T : PlaneTree),
   T = BinaryTree.children (PlaneTree.children2 T) := by
   intro T
@@ -110,5 +110,5 @@ theorem PlaneTree2BinaryTree_inverse :
       rw [PlaneTree.children2]
       simp [BinaryTree.children]
       apply And.intro
-      rw [← PlaneTree2BinaryTree_inverse]
-      rw [← PlaneTree2BinaryTree_inverse, PlaneTree.children]
+      rw [← PlaneTree2BinaryTree]
+      rw [← PlaneTree2BinaryTree, PlaneTree.children]
