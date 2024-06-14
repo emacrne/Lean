@@ -156,3 +156,13 @@ theorem task {n : ℕ} : (n + 1) ∣ (2 * n).choose n :=
   div_trans_2 z h
 
 end
+
+
+--------------------------
+
+-- 7.
+
+#check catalan_eq_centralBinom_div
+
+theorem binom_div_catalan (n : ℕ) : n.centralBinom / (n + 1) = catalan n :=
+  (catalan_eq_centralBinom_div n).symm
