@@ -10,16 +10,16 @@ open BigOperators
 
 /- SMALL TASKS -/
 
--- 1.
+-- 1. Recursive definition of catalan numbers
 def catalanNumber : (n: ℕ) → ℕ
 | 0 => 1
 | n+1 => ∑ i : Fin n.succ, (catalanNumber i) * (catalanNumber (n - i))
 
--- 2.
+-- 2. Plane trees
 inductive PlaneTree : Type
 | nodes : (List PlaneTree) → PlaneTree
 
--- 3.
+-- 3. Full binary trees
 inductive BinaryTree : Type
 | leaf
 | node : (T₁ T₂ : BinaryTree) → BinaryTree
@@ -28,23 +28,19 @@ def BinaryTree.numNodes : BinaryTree → ℕ
 | leaf => 1
 | node T₁ T₂ => T₁.numNodes + T₂.numNodes + 1
 
--- 4.
+-- 4. Full binary trees with n nodes
 def NBinaryTree (n : ℕ) : Type :=
   { T : BinaryTree // T.numNodes = n}
 
-
--- 5.
-
-def BallotSequence : List ℤ → ℤ → Bool
-| [], sum => sum ≥ 0
-| x :: xs, sum => (sum + x) ≥ 0 ∧ BallotSequence xs (sum + x)
-
-def generateSequences : Nat → List (List ℤ)
-| 0 => [[]]
-| n + 1 => generateSequences n >>= fun seq => [1 :: seq, -1 :: seq]
-
-def generateBallotSequences (n : Nat) : List (List ℤ) :=
-   (generateSequences n).filter (fun seq => BallotSequence seq 0)
+-- 5. Ballot sequences of length n
+def NBallotSequences (n : ℕ) : List (List ℕ) :=
+  let rec BallotSequence : List ℕ → ℕ → Bool
+  | [], sum => sum ≥ 0
+  | head :: tail, sum => (sum + head) ≥ 0 ∧ BallotSequence tail (sum + head)
+  let rec Sequences : ℕ → List (List ℕ)
+  | 0 => [[]]
+  | n + 1 => Sequences n >>= fun seq => [1 :: seq, 0 :: seq]
+  (Sequences n).filter (fun seq => BallotSequence seq 0)
 
 
 ------------------------------------------------
@@ -104,10 +100,11 @@ induction T with
   simp [BinaryTree.children, PlaneTree.children2, PlaneTree.children]
   rw[← H₁]
   apply And.intro
-  tauto
+  simp[PlaneTree.children]
   split
   case node type T =>
-    rw[← T, ← H₂]
+    rw[← T]
+    rw[← H₂]
 
 theorem PlaneTree2BinaryTree :
   ∀ (T : PlaneTree),
@@ -122,7 +119,8 @@ theorem PlaneTree2BinaryTree :
       simp [BinaryTree.children]
       apply And.intro
       rw [← PlaneTree2BinaryTree]
-      rw [← PlaneTree2BinaryTree, PlaneTree.children]
+      rw [← PlaneTree2BinaryTree]
+      rw [PlaneTree.children]
 
 end
 
@@ -153,7 +151,7 @@ theorem task {n : ℕ} : (n + 1) ∣ (2 * n).choose n :=
     -- have key := add_right_eq_zero
     sorry
     -- rw [add_left_cancel_iff]
-    
+
   let z := dvd_mul_right (n + 1) ((2 * n).choose n - (2 * n).choose (n + 1))
   div_trans_2 z h
 
