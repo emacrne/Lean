@@ -14,4 +14,5 @@ This project involves the formalization of Catalan numbers and related combinato
 ### Large Tasks
 1. **Bijection between List Plane Trees and Plane Trees**
 2. **Rotation Isomorphism in Trees**
-3. **Proof that $C_n = \frac{\binom{2n}{n}}{n+1}$**
+3. **Proof that $\binom{2n}{n}$ is Divisible by $n+1$ (partial proof)**
+4. **Proof that $C_n = \frac{\binom{2n}{n}}{n+1}$**
