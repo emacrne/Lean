@@ -126,6 +126,39 @@ end
 
 --------------------------
 
+-- 6. (partial solution)
+
+section
+
+theorem div_refl {n m : ℕ} (h : n = m) : n ∣ m := by
+  rw [h]
+
+theorem div_trans_2 {n m k : ℕ} (a: n ∣ m) (b : m = k) : n ∣ k :=
+  dvd_trans a (div_refl b)
+
+
+theorem task {n : ℕ} : (n + 1) ∣ (2 * n).choose n :=
+
+  have h3 : (1 + n) * (n * 2).choose (1 + n) = n * (n * 2).choose n := by
+    -- helps proving h2
+    sorry
+
+  have h2 : (n * 2).choose (1 + n) - n * ((n * 2).choose n - (n * 2).choose (1 + n)) = 0 := by
+    -- helps proving h
+    sorry
+
+  have h : (n + 1) * ((2 * n).choose n - (2 * n).choose (n + 1)) = (2 * n).choose n := by
+    ring_nf
+    rw [add_comm]
+    sorry
+
+  let z := dvd_mul_right (n + 1) ((2 * n).choose n - (2 * n).choose (n + 1))
+  div_trans_2 z h
+
+end
+
+--------------------------
+
 -- 7.
 
 #check catalan_eq_centralBinom_div
